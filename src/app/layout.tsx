@@ -18,8 +18,38 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Encontro Manjedoura",
-  description: "Webapp de inscrições para os encontros do Movimento Manjedoura.",
+  title: {
+    template: "%s | Encontro Manjedoura",
+    default: "Encontro Manjedoura - Descubra o seu Propósito",
+  },
+  description: "Plataforma oficial de inscrições para os encontros do Movimento Manjedoura. Assim como a manjedoura revelou ao mundo um Rei, ajudamos você a descobrir o propósito para o qual nasceu.",
+  keywords: ["Encontro Manjedoura", "Manjedoura", "Retiro Espiritual", "Propósito", "Encontro de Casais", "Retiro de Jovens", "Acampamento"],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "https://encontromanjedoura.com.br",
+    title: "Encontro Manjedoura - Descubra o seu Propósito",
+    description: "Plataforma oficial de inscrições para os eventos do Movimento Manjedoura.",
+    siteName: "Encontro Manjedoura",
+    images: [
+      {
+        url: "/FotoManjedoura.jpg", // A foto principal de fundo servirá como excelente capa de compartilhamento
+        width: 1200,
+        height: 630,
+        alt: "Imagem do Encontro Manjedoura",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Encontro Manjedoura - Descubra o seu Propósito",
+    description: "Plataforma oficial de inscrições. Inscreva-se para os próximos retiros.",
+    images: ["/FotoManjedoura.jpg"],
+  },
 };
 
 export default function RootLayout({
