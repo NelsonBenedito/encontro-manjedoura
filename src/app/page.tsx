@@ -83,6 +83,12 @@ export default async function Home() {
                       <Users className="w-5 h-5 text-spiritual-gold" />
                       <span className="font-medium">Para todos</span>
                     </div>
+                    {event.price && (
+                      <div className="flex items-center gap-3 text-emerald-600 dark:text-emerald-400 text-sm">
+                        <div className="w-5 h-5 flex items-center justify-center text-emerald-500 font-bold">$</div>
+                        <span className="font-bold">R$ {event.price.replace('R$ ', '').replace('R$', '')}</span>
+                      </div>
+                    )}
                   </div>
 
                   <Link

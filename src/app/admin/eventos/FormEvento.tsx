@@ -11,6 +11,7 @@ interface EventoProps {
     date: string;
     location: string;
     status: string;
+    price: string;
 }
 
 export function FormEvento({ evento }: { evento?: EventoProps }) {
@@ -38,6 +39,19 @@ export function FormEvento({ evento }: { evento?: EventoProps }) {
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider">Data</label>
                             <input name="date" required defaultValue={evento?.date} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Ex: 15 a 17 de Novembro, 2026" />
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider">Valor da Inscrição (Opcional)</label>
+                            <div className="relative">
+                                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-spiritual-dark/40 dark:text-spiritual-white/40 font-bold">R$</span>
+                                <input
+                                    name="price"
+                                    defaultValue={evento?.price?.replace('R$', '').trim()}
+                                    className="w-full pl-12 pr-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white"
+                                    placeholder="250,00 ou Gratuito"
+                                />
+                            </div>
                         </div>
 
                         <div className="flex flex-col gap-2">

@@ -21,9 +21,15 @@ export async function saveEvento(formData: FormData) {
   const date = formData.get("date") as string;
   const location = formData.get("location") as string;
   const status = formData.get("status") as string;
+  let price = (formData.get("price") as string) || "";
   
+  // Garante que o preço comece com R$ ao salvar, se houver valor
+  if (price && !price.startsWith("R$")) {
+    price = `R$ ${price.trim()}`;
+  }
+
   const slug = generateSlug(title);
-  const payload = { title, slug, date, location, status };
+  const payload = { title, slug, date, location, status, price };
 
   if (id) {
     await supabase.from("eventos").update(payload).eq("id", id);

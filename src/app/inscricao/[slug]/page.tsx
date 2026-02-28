@@ -17,7 +17,7 @@ export default async function InscricaoForm({ params }: PageProps) {
     // Busca o evento real no banco para confirmar se existe
     const { data: evento } = await supabase
         .from("eventos")
-        .select("id, title, date, status")
+        .select("*")
         .eq("slug", resolvedParams.slug)
         .single();
 
@@ -44,15 +44,22 @@ export default async function InscricaoForm({ params }: PageProps) {
                         <h1 className="text-4xl font-serif font-black text-spiritual-dark dark:text-spiritual-white mb-4 drop-shadow-sm">
                             Ficha de Inscrição
                         </h1>
-                        <p className="text-spiritual-dark/60 dark:text-spiritual-white/70 text-lg font-light">
+                        <div className="text-spiritual-dark/60 dark:text-spiritual-white/70 text-lg font-light">
                             Você está se inscrevendo para o evento: <br />
                             <strong className="text-spiritual-gold block mt-3 text-2xl font-serif font-bold">
                                 {evento.title}
                             </strong>
-                            <span className="text-sm border border-spiritual-gold/20 text-spiritual-gold bg-spiritual-gold/10 px-3 py-1 rounded-full mt-3 inline-block font-bold">
-                                {evento.date}
-                            </span>
-                        </p>
+                            <div className="flex justify-center items-center gap-2 mt-3 flex-wrap">
+                                <span className="text-sm border border-spiritual-gold/20 text-spiritual-gold bg-spiritual-gold/10 px-3 py-1 rounded-full font-bold">
+                                    {evento.date}
+                                </span>
+                                {evento.price && (
+                                    <span className="text-sm border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full font-bold">
+                                        Valor: {evento.price}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
                     <form action={submeterInscricao} className="flex flex-col gap-6 text-left">

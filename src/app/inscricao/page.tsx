@@ -50,6 +50,11 @@ export default async function InscricaoList() {
                                         <MapPin className="w-4 h-4 text-spiritual-gold" />
                                         <span>{event.location}</span>
                                     </div>
+                                    {event.price && (
+                                        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                                            <span>R$ {event.price.replace('R$ ', '').replace('R$', '')}</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
