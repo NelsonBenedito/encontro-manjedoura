@@ -50,6 +50,15 @@ export function Footer() {
                             Termos de Uso
                         </Link>
                     </div>
+
+                    <div className="flex flex-col gap-3">
+                        <h4 className="text-sm font-semibold text-spiritual-gold uppercase tracking-widest mb-2 font-serif">
+                            Coordenação
+                        </h4>
+                        <Link href="/admin" className="text-sm hover:text-spiritual-gold transition-colors flex items-center gap-1.5">
+                            Acessar Painel
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="border-t border-spiritual-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
