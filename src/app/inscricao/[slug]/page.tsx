@@ -1,8 +1,10 @@
 import { ArrowLeft, CheckCircle2, UploadCloud } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { submeterInscricao } from "./actions";
 import { createClient } from "@/utils/supabase/server";
+import { CopyPixButton } from "./CopyPixButton";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -31,10 +33,10 @@ export default async function InscricaoForm({ params }: PageProps) {
             <div className="container mx-auto px-4 max-w-2xl relative z-10">
                 <Link
                     href="/inscricao"
-                    className="flex items-center gap-2 text-spiritual-dark/50 hover:text-spiritual-gold transition-colors mb-10 font-bold uppercase tracking-widest text-xs w-fit"
+                    className="flex items-center gap-2 text-spiritual-dark/50 text-spiritual-gold  hover:text-spiritual-gold transition-colors mb-10 font-bold uppercase tracking-widest text-xs w-fit"
                 >
-                    <ArrowLeft className="w-4 h-4" />
-                    Voltar para Eventos
+                    <ArrowLeft className="w-4 h-4 text-spiritual-gold " />
+                    Voltar aos eventos
                 </Link>
 
                 <div className="bg-white dark:bg-[#1a1a1a] p-10 md:p-14 rounded-3xl shadow-xl border border-spiritual-dark/5 dark:border-spiritual-gold/5 backdrop-blur-sm">
@@ -98,20 +100,82 @@ export default async function InscricaoForm({ params }: PageProps) {
                             />
                         </div>
 
-                        {/* Upload de Comprovante de Pagamento (Storage Supabase) */}
-                        <div className="flex flex-col gap-2.5 mt-2">
-                            <label htmlFor="comprovante" className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2 border-t pt-8 border-spiritual-dark/10 dark:border-spiritual-white/10">
-                                <UploadCloud className="w-5 h-5 text-spiritual-gold" /> Anexe seu Comprovante de Pagamento <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="file"
-                                name="comprovante"
-                                id="comprovante"
-                                accept="image/*,.pdf"
-                                required
-                                className="w-full text-sm mt-1 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-spiritual-gold file:text-spiritual-dark hover:file:bg-spiritual-dark hover:file:text-spiritual-gold dark:hover:file:text-spiritual-dark dark:hover:file:bg-spiritual-white transition-colors cursor-pointer text-spiritual-dark/60 dark:text-spiritual-white/60"
-                            />
-                            <p className="text-xs text-spiritual-dark/40 dark:text-spiritual-white/40 mt-1">Imagens (.jpg, .png) ou PDF do banco.</p>
+                        {/* Seção de Pagamento / Checkout */}
+                        <div className="mt-6 pt-8 border-t border-spiritual-dark/10 dark:border-spiritual-white/10">
+                            <h3 className="text-2xl font-serif font-black text-spiritual-dark dark:text-spiritual-white mb-6">
+                                Informações de Pagamento
+                            </h3>
+
+                            <div className="grid md:grid-cols-2 gap-6 mb-8">
+                                {/* Opção Pix */}
+                                <div className="bg-spiritual-gold/5 border border-spiritual-gold/20 p-6 rounded-2xl flex flex-col justify-between">
+                                    <div>
+                                        <h4 className="font-bold text-spiritual-dark dark:text-spiritual-white flex items-center gap-2 mb-3">
+                                            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-black">1</div>
+                                            Pagamento via PIX
+                                        </h4>
+                                        <p className="text-sm text-spiritual-dark/70 dark:text-spiritual-white/70 mb-4">
+                                            Aponte a câmera para o QR Code ou use a chave CNPJ abaixo:
+                                        </p>
+                                    </div>
+                                    <div className="flex flex-col items-center gap-4 bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 text-center">
+                                        <div className="w-32 h-32 bg-white rounded-lg p-2 shadow-sm border border-spiritual-dark/5">
+                                            <Image
+                                                src="/pix-qrcode.png"
+                                                alt="QR Code Pix"
+                                                width={120}
+                                                height={120}
+                                                className="opacity-90 dark:opacity-100 mix-blend-multiply dark:mix-blend-normal"
+                                            />
+                                        </div>
+                                        <div className="w-full flex flex-col gap-2">
+                                            <div className="flex justify-between items-center bg-spiritual-dark/5 dark:bg-spiritual-white/5 py-2 px-3 rounded-lg gap-2">
+                                                <p className="text-sm font-mono text-spiritual-gold font-bold select-all break-all m-0 leading-none">
+                                                    53.740.127/0001-03
+                                                </p>
+                                                <CopyPixButton pixKey="53.740.127/0001-03" />
+                                            </div>
+                                            <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left">Titular: FILIPE BENEDITO JOSE MARIA</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Opção Infinity Pay */}
+                                <div className="bg-blue-500/5 border border-blue-500/20 p-6 rounded-2xl flex flex-col justify-between">
+                                    <div>
+                                        <h4 className="font-bold text-spiritual-dark dark:text-spiritual-white flex items-center gap-2 mb-3">
+                                            <div className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black">2</div>
+                                            Cartão (Infinity Pay)
+                                        </h4>
+                                        <p className="text-sm text-spiritual-dark/70 dark:text-spiritual-white/70 mb-4">
+                                            Prefere usar o Cartão de Crédito? Acesse nosso link de pagamento seguro da Infinity Pay.
+                                        </p>
+                                    </div>
+                                    <a
+                                        href="https://link.infinitepay.io/manjedouramovimento/VC1D-7MfDzGwkzF-200,00"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block w-full text-center bg-blue-600/90 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors text-sm shadow-sm"
+                                    >
+                                        Acessar Link de Pagamento
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-2.5">
+                                <label htmlFor="comprovante" className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
+                                    <UploadCloud className="w-5 h-5 text-spiritual-gold" /> Anexe seu Comprovante após pagar <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="file"
+                                    name="comprovante"
+                                    id="comprovante"
+                                    accept="image/*,.pdf"
+                                    required
+                                    className="w-full text-sm mt-1 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-spiritual-gold file:text-spiritual-dark hover:file:bg-spiritual-dark hover:file:text-spiritual-gold dark:hover:file:text-spiritual-dark dark:hover:file:bg-spiritual-white transition-colors cursor-pointer border border-spiritual-dark/5 dark:border-spiritual-white/5 text-spiritual-dark/60 dark:text-spiritual-white/60 p-2 bg-spiritual-white dark:bg-[#1a1a1a] rounded-2xl"
+                                />
+                                <p className="text-xs text-spiritual-dark/40 dark:text-spiritual-white/40 mt-1">Sua vaga só é garantida quando nossa equipe confirma o anexo enviado.</p>
+                            </div>
                         </div>
 
                         <div className="mt-8">
