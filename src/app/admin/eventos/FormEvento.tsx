@@ -12,6 +12,7 @@ interface EventoProps {
     location: string;
     status: string;
     price: string;
+    payment_link?: string;
 }
 
 export function FormEvento({ evento }: { evento?: EventoProps }) {
@@ -67,6 +68,11 @@ export function FormEvento({ evento }: { evento?: EventoProps }) {
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider">Local (Endereço/Cidade)</label>
                         <input name="location" required defaultValue={evento?.location} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Ex: Recanto das Águas, SP" />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider">Link de Pagamento (Infinity Pay)</label>
+                        <input name="payment_link" defaultValue={evento?.payment_link} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Ex: https://link.infinitepay.io/..." />
                     </div>
 
                     <button type="submit" className="w-full mt-4 py-4 bg-spiritual-gold text-spiritual-dark font-black rounded-xl hover:bg-spiritual-dark dark:hover:bg-spiritual-white hover:text-spiritual-gold dark:hover:text-spiritual-dark transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 text-lg">

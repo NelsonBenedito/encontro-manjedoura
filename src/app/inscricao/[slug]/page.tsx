@@ -148,25 +148,27 @@ export default async function InscricaoForm({ params }: PageProps) {
                                 </div>
 
                                 {/* Opção Infinity Pay */}
-                                <div className="bg-blue-500/5 border border-blue-500/20 p-6 rounded-2xl flex flex-col justify-between">
-                                    <div>
-                                        <h4 className="font-bold text-spiritual-dark dark:text-spiritual-white flex items-center gap-2 mb-3">
-                                            <div className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black">2</div>
-                                            Cartão (Infinity Pay)
-                                        </h4>
-                                        <p className="text-sm text-spiritual-dark/70 dark:text-spiritual-white/70 mb-4">
-                                            Prefere usar o Cartão de Crédito? Acesse nosso link de pagamento seguro da Infinity Pay.
-                                        </p>
+                                {evento.payment_link && (
+                                    <div className="bg-blue-500/5 border border-blue-500/20 p-6 rounded-2xl flex flex-col justify-between">
+                                        <div>
+                                            <h4 className="font-bold text-spiritual-dark dark:text-spiritual-white flex items-center gap-2 mb-3">
+                                                <div className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black">2</div>
+                                                Cartão (Infinity Pay)
+                                            </h4>
+                                            <p className="text-sm text-spiritual-dark/70 dark:text-spiritual-white/70 mb-4">
+                                                Prefere usar o Cartão de Crédito? Acesse nosso link de pagamento seguro da Infinity Pay.
+                                            </p>
+                                        </div>
+                                        <a
+                                            href={evento.payment_link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block w-full text-center bg-blue-600/90 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors text-sm shadow-sm"
+                                        >
+                                            Acessar Link de Pagamento
+                                        </a>
                                     </div>
-                                    <a
-                                        href="https://link.infinitepay.io/manjedouramovimento/VC1D-7MfDzGwkzF-200,00"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block w-full text-center bg-blue-600/90 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors text-sm shadow-sm"
-                                    >
-                                        Acessar Link de Pagamento
-                                    </a>
-                                </div>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-2.5">
