@@ -31,24 +31,15 @@ export function Footer() {
                         <Link href="/inscricao" className="text-sm hover:text-spiritual-gold transition-colors">
                             Inscrever para Eventos
                         </Link>
-                        <Link href="/sobre" className="text-sm hover:text-spiritual-gold transition-colors">
-                            Sobre Nós
-                        </Link>
                     </div>
 
                     <div className="flex flex-col gap-3">
                         <h4 className="text-sm font-semibold text-spiritual-gold uppercase tracking-widest mb-2 font-serif">
                             Suporte
                         </h4>
-                        <Link href="/contato" className="text-sm hover:text-spiritual-gold transition-colors">
-                            Fale Conosco
-                        </Link>
-                        <Link href="/faq" className="text-sm hover:text-spiritual-gold transition-colors">
-                            Perguntas Frequentes
-                        </Link>
-                        <Link href="/termos" className="text-sm hover:text-spiritual-gold transition-colors">
-                            Termos de Uso
-                        </Link>
+                        <p className="text-xs text-spiritual-white/40 italic">
+                            Suporte em breve
+                        </p>
                     </div>
 
                     <div className="flex flex-col gap-3">
