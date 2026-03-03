@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         };
     }
 
-    const title = `Faça sua inscrição no evento ${evento.title}`;
-    const description = `Participe do ${evento.title} no dia ${evento.date}. Garanta sua vaga agora mesmo!`;
+    const title = `Faça sua inscrição no evento: ${evento.title}`;
+    const description = `Participe do ${evento.title} no dia ${evento.date}. Garanta sua vaga agora mesmo no site oficial do Movimento Manjedoura.`;
 
     return {
         title: title,
@@ -36,13 +36,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         openGraph: {
             title: title,
             description: description,
+            url: `https://encontro-manjedoura.vercel.app/inscricao/${resolvedParams.slug}`,
+            siteName: "Encontro Manjedoura",
             type: "website",
             images: [
                 {
                     url: "/FotoManjedoura.jpg",
                     width: 1200,
                     height: 630,
-                    alt: evento.title,
+                    alt: `Imagem de capa do ${evento.title}`,
                 },
             ],
         },

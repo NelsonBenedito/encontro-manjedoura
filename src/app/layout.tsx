@@ -17,6 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://encontro-manjedoura.vercel.app"),
   title: {
     template: "%s | Encontro Manjedoura",
     default: "Encontro Manjedoura - Descubra o seu Propósito",
