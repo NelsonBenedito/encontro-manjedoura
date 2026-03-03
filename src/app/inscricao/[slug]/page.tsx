@@ -5,9 +5,54 @@ import { notFound } from "next/navigation";
 import { submeterInscricao } from "./actions";
 import { createClient } from "@/utils/supabase/server";
 import { CopyPixButton } from "./CopyPixButton";
+import { Metadata } from "next";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const supabase = await createClient();
+    const resolvedParams = await params;
+
+    const { data: evento } = await supabase
+        .from("eventos")
+        .select("title, date, description")
+        .eq("slug", resolvedParams.slug)
+        .single();
+
+    if (!evento) {
+        return {
+            title: "Evento não encontrado",
+        };
+    }
+
+    const title = `Faça sua inscrição no evento ${evento.title}`;
+    const description = `Participe do ${evento.title} no dia ${evento.date}. Garanta sua vaga agora mesmo!`;
+
+    return {
+        title: title,
+        description: description,
+        openGraph: {
+            title: title,
+            description: description,
+            type: "website",
+            images: [
+                {
+                    url: "/FotoManjedoura.jpg",
+                    width: 1200,
+                    height: 630,
+                    alt: evento.title,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: title,
+            description: description,
+            images: ["/FotoManjedoura.jpg"],
+        },
+    };
 }
 
 export default async function InscricaoForm({ params }: PageProps) {
@@ -33,7 +78,7 @@ export default async function InscricaoForm({ params }: PageProps) {
             <div className="container mx-auto px-4 max-w-2xl relative z-10">
                 <Link
                     href="/inscricao"
-                    className="flex items-center gap-2 text-spiritual-dark/50 text-spiritual-gold  hover:text-spiritual-gold transition-colors mb-10 font-bold uppercase tracking-widest text-xs w-fit"
+                    className="flex items-center gap-2 text-spiritual-gold hover:text-spiritual-gold transition-colors mb-10 font-bold uppercase tracking-widest text-xs w-fit"
                 >
                     <ArrowLeft className="w-4 h-4 text-spiritual-gold " />
                     Voltar aos eventos

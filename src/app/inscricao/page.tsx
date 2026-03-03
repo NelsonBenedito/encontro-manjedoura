@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Eventos Disponíveis",
+    description: "Confira a lista de eventos e encontros do Movimento Manjedoura e faça sua inscrição.",
+};
 
 export default async function InscricaoList() {
     const supabase = await createClient();
