@@ -49,7 +49,7 @@ export default async function Home() {
               Próximos Eventos
             </h2>
             <div className="w-24 h-1 bg-spiritual-gold rounded-full mb-6"></div>
-            <p className="text-spiritual-dark/80 dark:text-spiritual-dark/70 max-w-2xl text-lg font-light leading-relaxed">
+            <p className="text-spiritual-dark/80 dark:text-spiritual-white/80 max-w-2xl text-lg font-light leading-relaxed">
               Garanta sua vaga nos nossos próximos encontros. As inscrições são limitadas e abertas para todos que buscam uma experiência única.
             </p>
           </div>
