@@ -57,6 +57,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
 }
 
+import { PixQRCode } from "./PixQRCode";
+
 export const dynamic = "force-dynamic";
 
 export default async function InscricaoForm({ params }: PageProps) {
@@ -170,82 +172,97 @@ export default async function InscricaoForm({ params }: PageProps) {
                                 Informações de Pagamento
                             </h3>
 
-                            <div className="grid md:grid-cols-2 gap-6 mb-8">
-                                {/* Opção Pix */}
-                                <div className="bg-spiritual-gold/5 border border-spiritual-gold/20 p-6 rounded-2xl flex flex-col justify-between">
-                                    <div>
-                                        <h4 className="font-bold text-spiritual-dark dark:text-spiritual-white flex items-center gap-2 mb-3">
-                                            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-black">1</div>
-                                            Pagamento via PIX
-                                        </h4>
-                                        <p className="text-sm text-spiritual-dark/70 dark:text-spiritual-white/70 mb-4">
-                                            Aponte a câmera para o QR Code ou use a chave abaixo:
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-4 bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 text-center">
-                                        <div className="w-32 h-32 bg-white rounded-lg p-2 shadow-sm border border-spiritual-dark/5 flex items-center justify-center overflow-hidden">
-                                            {pixQRCode ? (
-                                                <Image
-                                                    src={pixQRCode}
-                                                    alt="QR Code Pix"
-                                                    width={120}
-                                                    height={120}
-                                                    className="opacity-90 dark:opacity-100 mix-blend-multiply dark:mix-blend-normal object-contain h-full w-full"
-                                                />
-                                            ) : (
-                                                <div className="flex flex-col items-center gap-1 text-spiritual-dark/20 dark:text-spiritual-white/20">
-                                                    <QrCode className="w-10 h-10" />
-                                                    <span className="text-[8px] uppercase font-bold">Sem QR Code</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="w-full flex flex-col gap-2">
-                                            <div className="flex justify-between items-center bg-spiritual-dark/5 dark:bg-spiritual-white/5 py-2 px-3 rounded-lg gap-2">
-                                                <p className="text-sm font-mono text-spiritual-gold font-bold select-all break-all m-0 leading-none">
-                                                    {pixKey}
-                                                </p>
-                                                <CopyPixButton pixKey={pixKey} />
-                                            </div>
-                                            <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left">Titular: {pixName}</span>
-                                        </div>
-                                        {pixLink && (
-                                            <div className="mt-4 pt-4 border-t border-spiritual-dark/10 dark:border-spiritual-white/10 w-full animate-in fade-in slide-in-from-top-2 duration-500">
-                                                <label className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left mb-2 font-bold">
-                                                    Pix Copia e Cola / Chave Aleatória:
-                                                </label>
-                                                <div className="flex justify-between items-center bg-emerald-500/5 dark:bg-emerald-500/10 py-2.5 px-3 rounded-xl gap-2 border border-emerald-500/20">
-                                                    <p className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-bold select-all break-all m-0 leading-tight">
-                                                        {pixLink}
-                                                    </p>
-                                                    <CopyPixButton pixKey={pixLink} />
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
+                            {/* Opções de Pagamento */}
+                            <div className="flex flex-col gap-6 mb-10">
+                                <div className="grid md:grid-cols-2 gap-6 items-stretch">
+                                    {/* Opção 1: Pix */}
+                                    <div className="bg-white dark:bg-[#1a1a1a] border border-spiritual-dark/5 dark:border-spiritual-white/5 rounded-3xl p-6 shadow-sm flex flex-col gap-6 relative overflow-hidden group">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-spiritual-gold" />
 
-                                {/* Opção Infinity Pay */}
-                                {evento.payment_link && (
-                                    <div className="bg-blue-500/5 border border-blue-500/20 p-6 rounded-2xl flex flex-col justify-between">
-                                        <div>
-                                            <h4 className="font-bold text-spiritual-dark dark:text-spiritual-white flex items-center gap-2 mb-3">
-                                                <div className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black">2</div>
-                                                Cartão (Infinity Pay)
-                                            </h4>
-                                            <p className="text-sm text-spiritual-dark/70 dark:text-spiritual-white/70 mb-4">
-                                                Prefere usar o Cartão de Crédito? Acesse nosso link de pagamento seguro da Infinity Pay.
-                                            </p>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-[10px] uppercase font-black tracking-[0.2em] text-spiritual-gold">Opção 01</span>
+                                            <h3 className="text-xl font-serif font-black text-spiritual-dark dark:text-spiritual-white italic">Pagar com Pix</h3>
                                         </div>
-                                        <a
-                                            href={evento.payment_link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="block w-full text-center bg-blue-600/90 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors text-sm shadow-sm"
-                                        >
-                                            Acessar Link de Pagamento
-                                        </a>
+
+                                        <div className="flex flex-col items-center gap-6">
+                                            <div className="w-40 h-40 bg-white rounded-2xl p-3 shadow-inner border border-spiritual-dark/5 flex items-center justify-center overflow-hidden">
+                                                {pixLink ? (
+                                                    <PixQRCode pixCode={pixLink} />
+                                                ) : pixQRCode ? (
+                                                    <Image
+                                                        src={pixQRCode}
+                                                        alt="QR Code Pix"
+                                                        width={160}
+                                                        height={160}
+                                                        className="opacity-90 dark:opacity-100 mix-blend-multiply dark:mix-blend-normal object-contain"
+                                                    />
+                                                ) : (
+                                                    <div className="flex flex-col items-center gap-2 text-spiritual-dark/20 dark:text-spiritual-white/20">
+                                                        <QrCode className="w-12 h-12" />
+                                                        <span className="text-[10px] uppercase font-black tracking-widest text-center leading-tight">Aguardando<br />Configuração</span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="w-full space-y-3">
+                                                <div className="flex flex-col items-center text-center px-4">
+                                                    <span className="text-spiritual-dark/40 dark:text-spiritual-white/40 text-[10px] uppercase font-bold tracking-widest mb-1">Chave Pix</span>
+                                                    <p className="text-spiritual-dark dark:text-spiritual-white font-black text-sm break-all">{pixKey}</p>
+                                                    <span className="text-spiritual-dark/40 dark:text-spiritual-white/40 text-[9px] uppercase font-medium mt-1">{pixName}</span>
+                                                </div>
+
+                                                {pixLink && (
+                                                    <div className="mt-6 pt-6 border-t border-spiritual-dark/5 dark:border-spiritual-white/5 w-full flex flex-col gap-3">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 uppercase tracking-[0.1em] font-black">Pix Copia e Cola</span>
+                                                            <CopyPixButton pixKey={pixLink} />
+                                                        </div>
+                                                        <div className="bg-spiritual-dark/[0.03] dark:bg-spiritual-white/[0.03] p-4 rounded-xl border border-spiritual-dark/5 dark:border-spiritual-white/5 relative group/code">
+                                                            <p className="text-[10px] font-mono text-spiritual-dark/70 dark:text-spiritual-white/70 break-all leading-relaxed max-h-24 overflow-y-auto custom-scrollbar">
+                                                                {pixLink}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
+
+                                    {/* Opção 2: Cartão (se houver link) */}
+                                    {evento.payment_link && (
+                                        <div className="bg-white dark:bg-[#1a1a1a] border border-spiritual-dark/5 dark:border-spiritual-white/5 rounded-3xl p-6 shadow-sm flex flex-col gap-6 relative overflow-hidden">
+                                            <div className="absolute top-0 left-0 w-1 h-full bg-blue-500" />
+
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-[10px] uppercase font-black tracking-[0.1em] text-blue-500">Opção 02</span>
+                                                <h3 className="text-xl font-serif font-black text-spiritual-dark dark:text-spiritual-white italic">Cartão de Crédito</h3>
+                                            </div>
+
+                                            <div className="flex-1 flex flex-col items-center justify-center gap-8 py-4">
+                                                <div className="w-20 h-20 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                                    <CheckCircle2 className="w-10 h-10 text-blue-500 opacity-50" />
+                                                </div>
+
+                                                <div className="text-center px-4">
+                                                    <p className="text-spiritual-dark/60 dark:text-spiritual-white/60 text-sm leading-relaxed mb-8">
+                                                        Prefere pagar com cartão? <br />
+                                                        Use o link oficial da Infinite Pay para realizar o pagamento com segurança.
+                                                    </p>
+
+                                                    <a
+                                                        href={evento.payment_link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-lg hover:shadow-blue-500/20 active:scale-95 group"
+                                                    >
+                                                        Acessar Link
+                                                        <ArrowLeft className="w-4 h-4 rotate-180 group-hover:translate-x-1 transition-transform" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="flex flex-col gap-2.5">

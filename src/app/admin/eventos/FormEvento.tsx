@@ -104,14 +104,17 @@ export function FormEvento({ evento }: { evento?: EventoProps }) {
 
                             <div className="flex flex-col gap-2">
                                 <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
-                                    <Key className="w-4 h-4 text-spiritual-gold" /> Chave Aleatória Temporária
+                                    <Key className="w-4 h-4 text-spiritual-gold" /> Chave Aleatória Temporária (Pix Copia e Cola)
                                 </label>
-                                <input name="link_pix" defaultValue={evento?.link_pix} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] font-mono text-sm focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Cole aqui a chave aleatória" />
+                                <input name="link_pix" defaultValue={evento?.link_pix} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] font-mono text-sm focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Cole aqui o código Pix Copia e Cola" />
+                                <p className="text-[10px] text-emerald-600 dark:text-emerald-400 italic font-bold">
+                                    Dica: Se você preencher este campo, o QR Code será gerado automaticamente para o checkout.
+                                </p>
                             </div>
 
                             <div className="flex flex-col gap-2">
                                 <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
-                                    <QrCode className="w-4 h-4 text-spiritual-gold" /> Upload do QR Code
+                                    <QrCode className="w-4 h-4 text-spiritual-gold" /> Upload do QR Code (Fallback)
                                 </label>
                                 <div className="flex items-center gap-4 p-4 bg-spiritual-dark/5 dark:bg-spiritual-white/5 rounded-2xl border border-dashed border-spiritual-dark/10 dark:border-spiritual-white/10">
                                     {evento?.qr_code_url && (
