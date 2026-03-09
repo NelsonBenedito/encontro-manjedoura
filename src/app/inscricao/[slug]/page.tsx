@@ -199,14 +199,17 @@ export default async function InscricaoForm({ params }: PageProps) {
                                             <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left">Titular: {pixName}</span>
                                         </div>
                                         {config?.link_pix && (
-                                            <a
-                                                href={config.link_pix}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="mt-2 w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors shadow-sm"
-                                            >
-                                                Pagar via Link PIX
-                                            </a>
+                                            <div className="mt-4 pt-4 border-t border-spiritual-dark/10 dark:border-spiritual-white/10 w-full animate-in fade-in slide-in-from-top-2 duration-500">
+                                                <label className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left mb-2 font-bold">
+                                                    Pix Copia e Cola / Chave Aleatória:
+                                                </label>
+                                                <div className="flex justify-between items-center bg-emerald-500/5 dark:bg-emerald-500/10 py-2.5 px-3 rounded-xl gap-2 border border-emerald-500/20">
+                                                    <p className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-bold select-all break-all m-0 leading-tight">
+                                                        {config.link_pix}
+                                                    </p>
+                                                    <CopyPixButton pixKey={config.link_pix} />
+                                                </div>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
