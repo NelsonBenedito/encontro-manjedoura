@@ -61,6 +61,7 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${playfair.variable} antialiased min-h-screen flex flex-col font-sans bg-spiritual-white dark:bg-spiritual-dark text-spiritual-dark dark:text-spiritual-white transition-colors duration-300`}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Edit2, Plus, CheckCircle2 } from "lucide-react";
 import { DeleteButton } from "./DeleteButton";
 import { confirmarInscricao } from "./actions";
+import { SettingsForm } from "./SettingsForm";
 
 export default async function AdminDashboard() {
     const supabase = await createClient();
@@ -20,6 +21,7 @@ export default async function AdminDashboard() {
     // Busca os dados - agora usando conexões reais ao invés de mock
     const { data: eventos } = await supabase.from("eventos").select("*").order("created_at", { ascending: false });
     const { data: inscricoes } = await supabase.from("inscricoes").select("*, eventos(title)").order("created_at", { ascending: false });
+    const { data: config } = await supabase.from("configuracoes").select("*").single();
 
     return (
         <div className="container mx-auto px-4 py-12 flex flex-col gap-10">
@@ -129,6 +131,23 @@ export default async function AdminDashboard() {
                         </p>
                     )}
                 </div>
+            </div>
+
+            {/* Seção de Configurações Globais */}
+            <div className="bg-white dark:bg-[#1a1a1a] p-8 rounded-3xl shadow-sm border border-spiritual-dark/5 dark:border-spiritual-white/5">
+                <div className="mb-8">
+                    <h2 className="text-2xl font-serif font-black text-spiritual-dark dark:text-spiritual-white flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-spiritual-gold/10 text-spiritual-gold flex items-center justify-center">
+                            <Plus className="w-6 h-6 rotate-45" />
+                        </div>
+                        Configurações de Pagamento (PIX)
+                    </h2>
+                    <p className="text-spiritual-dark/60 dark:text-spiritual-white/60 mt-2">
+                        Altere a chave PIX e o QR Code que aparecem em todos os formulários de inscrição.
+                    </p>
+                </div>
+
+                <SettingsForm initialData={config} />
             </div>
         </div>
     );

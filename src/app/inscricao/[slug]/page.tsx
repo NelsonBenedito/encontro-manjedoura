@@ -68,9 +68,16 @@ export default async function InscricaoForm({ params }: PageProps) {
         .eq("slug", resolvedParams.slug)
         .single();
 
+    // Busca as configurações globais de PIX
+    const { data: config } = await supabase.from("configuracoes").select("*").single();
+
     if (!evento || evento.status === "Esgotadas") {
         return notFound();
     }
+
+    const pixKey = config?.chave_pix || "53.740.127/0001-03";
+    const pixName = config?.titular_pix || "FILIPE BENEDITO JOSE MARIA";
+    const pixQRCode = config?.qr_code_url || "/pix-qrcode.png";
 
     return (
         <div className="min-h-screen py-20 relative overflow-hidden flex flex-col items-center bg-transparent transition-colors duration-300">
@@ -169,27 +176,27 @@ export default async function InscricaoForm({ params }: PageProps) {
                                             Pagamento via PIX
                                         </h4>
                                         <p className="text-sm text-spiritual-dark/70 dark:text-spiritual-white/70 mb-4">
-                                            Aponte a câmera para o QR Code ou use a chave CNPJ abaixo:
+                                            Aponte a câmera para o QR Code ou use a chave abaixo:
                                         </p>
                                     </div>
                                     <div className="flex flex-col items-center gap-4 bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 text-center">
-                                        <div className="w-32 h-32 bg-white rounded-lg p-2 shadow-sm border border-spiritual-dark/5">
+                                        <div className="w-32 h-32 bg-white rounded-lg p-2 shadow-sm border border-spiritual-dark/5 flex items-center justify-center overflow-hidden">
                                             <Image
-                                                src="/pix-qrcode.png"
+                                                src={pixQRCode}
                                                 alt="QR Code Pix"
                                                 width={120}
                                                 height={120}
-                                                className="opacity-90 dark:opacity-100 mix-blend-multiply dark:mix-blend-normal"
+                                                className="opacity-90 dark:opacity-100 mix-blend-multiply dark:mix-blend-normal object-contain h-full w-full"
                                             />
                                         </div>
                                         <div className="w-full flex flex-col gap-2">
                                             <div className="flex justify-between items-center bg-spiritual-dark/5 dark:bg-spiritual-white/5 py-2 px-3 rounded-lg gap-2">
                                                 <p className="text-sm font-mono text-spiritual-gold font-bold select-all break-all m-0 leading-none">
-                                                    53.740.127/0001-03
+                                                    {pixKey}
                                                 </p>
-                                                <CopyPixButton pixKey="53.740.127/0001-03" />
+                                                <CopyPixButton pixKey={pixKey} />
                                             </div>
-                                            <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left">Titular: FILIPE BENEDITO JOSE MARIA</span>
+                                            <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left">Titular: {pixName}</span>
                                         </div>
                                     </div>
                                 </div>
