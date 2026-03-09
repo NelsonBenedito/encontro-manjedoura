@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { QrCode, Clipboard, User, Save, Check } from "lucide-react";
+import { QrCode, Clipboard, User, Save, Check, Link as LinkIcon } from "lucide-react";
 import Image from "next/image";
 import { saveSettings } from "./settings-actions";
 
@@ -9,6 +9,7 @@ interface SettingsFormProps {
     initialData: {
         chave_pix: string;
         titular_pix: string;
+        link_pix?: string | null;
         qr_code_url: string | null;
     } | null;
 }
@@ -65,6 +66,20 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
                             placeholder="Nome que aparece no PIX"
                         />
                     </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="link_pix" className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
+                            <LinkIcon className="w-4 h-4 text-spiritual-gold" /> Link do PIX (Opcional)
+                        </label>
+                        <input
+                            type="url"
+                            name="link_pix"
+                            id="link_pix"
+                            defaultValue={initialData?.link_pix || ""}
+                            className="w-full px-5 py-3 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:ring-2 focus:ring-spiritual-gold/50 focus:border-spiritual-gold outline-none transition-all text-spiritual-dark dark:text-spiritual-white"
+                            placeholder="https://pix.link/..."
+                        />
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-4">
@@ -105,8 +120,8 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
                 type="submit"
                 disabled={loading}
                 className={`flex items-center justify-center gap-2 py-4 rounded-xl font-black text-lg transition-all shadow-md ${success
-                        ? "bg-green-500 text-white"
-                        : "bg-spiritual-dark dark:bg-spiritual-white text-spiritual-gold dark:text-spiritual-dark hover:scale-[1.02] active:scale-[0.98]"
+                    ? "bg-green-500 text-white"
+                    : "bg-spiritual-dark dark:bg-spiritual-white text-spiritual-gold dark:text-spiritual-dark hover:scale-[1.02] active:scale-[0.98]"
                     }`}
             >
                 {loading ? (

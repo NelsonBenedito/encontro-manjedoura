@@ -8,6 +8,7 @@ export async function saveSettings(formData: FormData) {
     
     const chave_pix = formData.get("chave_pix") as string;
     const titular_pix = formData.get("titular_pix") as string;
+    const link_pix = formData.get("link_pix") as string;
     const qr_code = formData.get("qr_code") as File;
 
     // Busca a configuração atual
@@ -38,6 +39,7 @@ export async function saveSettings(formData: FormData) {
     const payload = {
         chave_pix,
         titular_pix,
+        link_pix,
         qr_code_url,
         updated_at: new Date().toISOString()
     };

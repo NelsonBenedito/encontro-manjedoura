@@ -198,6 +198,16 @@ export default async function InscricaoForm({ params }: PageProps) {
                                             </div>
                                             <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left">Titular: {pixName}</span>
                                         </div>
+                                        {config?.link_pix && (
+                                            <a
+                                                href={config.link_pix}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-2 w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors shadow-sm"
+                                            >
+                                                Pagar via Link PIX
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
 
