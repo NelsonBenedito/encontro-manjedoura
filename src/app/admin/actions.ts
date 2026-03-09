@@ -24,13 +24,54 @@ export async function saveEvento(formData: FormData) {
   const payment_link = (formData.get("payment_link") as string) || "";
   let price = (formData.get("price") as string) || "";
   
+  // Novos campos de PIX
+  const chave_pix = formData.get("chave_pix") as string || "";
+  const titular_pix = formData.get("titular_pix") as string || "";
+  const link_pix = formData.get("link_pix") as string || "";
+  const qr_code = formData.get("qr_code") as File | null;
+
   // Garante que o preço comece com R$ ao salvar, se houver valor
   if (price && !price.startsWith("R$")) {
     price = `R$ ${price.trim()}`;
   }
 
+  let qr_code_url = null;
+
+  // Se estiver editando, busca a URL atual para não sobrescrever com null se não subir novo arquivo
+  if (id) {
+    const { data: current } = await supabase.from("eventos").select("qr_code_url").eq("id", id).single();
+    qr_code_url = current?.qr_code_url;
+  }
+
+  // Se houver novo arquivo de QR Code, faz o upload para a pasta de eventos
+  if (qr_code && qr_code.size > 0) {
+    const fileExt = qr_code.name.split('.').pop();
+    const fileName = `qrcode-evento-${Date.now()}.${fileExt}`;
+    
+    const { error: uploadError } = await supabase.storage
+        .from("configuracoes") // Reutilizando o bucket de configurações para organização
+        .upload(fileName, qr_code);
+        
+    if (!uploadError) {
+        const { data } = supabase.storage.from("configuracoes").getPublicUrl(fileName);
+        qr_code_url = data.publicUrl;
+    }
+  }
+
   const slug = generateSlug(title);
-  const payload = { title, slug, date, location, status, price, payment_link };
+  const payload = { 
+    title, 
+    slug, 
+    date, 
+    location, 
+    status, 
+    price, 
+    payment_link,
+    chave_pix,
+    titular_pix,
+    link_pix,
+    qr_code_url
+  };
 
   if (id) {
     await supabase.from("eventos").update(payload).eq("id", id);
@@ -40,7 +81,7 @@ export async function saveEvento(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/inscricao");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   redirect("/admin");
 }
 

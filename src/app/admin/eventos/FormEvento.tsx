@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Clipboard, User, Key, QrCode } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { saveEvento } from "../actions";
 
@@ -13,6 +14,10 @@ interface EventoProps {
     status: string;
     price: string;
     payment_link?: string;
+    chave_pix?: string;
+    titular_pix?: string;
+    link_pix?: string;
+    qr_code_url?: string;
 }
 
 export function FormEvento({ evento }: { evento?: EventoProps }) {
@@ -73,6 +78,51 @@ export function FormEvento({ evento }: { evento?: EventoProps }) {
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider">Link de Pagamento (Infinity Pay)</label>
                         <input name="payment_link" defaultValue={evento?.payment_link} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Ex: https://link.infinitepay.io/..." />
+                    </div>
+
+                    <div className="mt-8 pt-8 border-t border-spiritual-dark/10 dark:border-spiritual-white/10">
+                        <h3 className="text-xl font-serif font-black text-spiritual-dark dark:text-spiritual-white mb-6 flex items-center gap-2">
+                            <span className="w-8 h-8 rounded-lg bg-spiritual-gold/10 text-spiritual-gold flex items-center justify-center text-sm font-black italic">!</span>
+                            Configurações de PIX deste Evento
+                        </h3>
+
+                        <div className="flex flex-col gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
+                                        <Clipboard className="w-4 h-4 text-spiritual-gold" /> Chave PIX
+                                    </label>
+                                    <input name="chave_pix" defaultValue={evento?.chave_pix} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Ex: CPF ou E-mail" />
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
+                                        <User className="w-4 h-4 text-spiritual-gold" /> Nome do Titular
+                                    </label>
+                                    <input name="titular_pix" defaultValue={evento?.titular_pix} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Nome que aparece no PIX" />
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
+                                    <Key className="w-4 h-4 text-spiritual-gold" /> Chave Aleatória Temporária
+                                </label>
+                                <input name="link_pix" defaultValue={evento?.link_pix} className="w-full px-5 py-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 bg-spiritual-white dark:bg-[#202020] font-mono text-sm focus:outline-none focus:border-spiritual-gold text-spiritual-dark dark:text-spiritual-white" placeholder="Cole aqui a chave aleatória" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-bold text-spiritual-dark/80 dark:text-spiritual-white/80 uppercase tracking-wider flex items-center gap-2">
+                                    <QrCode className="w-4 h-4 text-spiritual-gold" /> Upload do QR Code
+                                </label>
+                                <div className="flex items-center gap-4 p-4 bg-spiritual-dark/5 dark:bg-spiritual-white/5 rounded-2xl border border-dashed border-spiritual-dark/10 dark:border-spiritual-white/10">
+                                    {evento?.qr_code_url && (
+                                        <div className="w-20 h-20 bg-white rounded-lg p-1 border border-spiritual-dark/10 shrink-0 flex items-center justify-center overflow-hidden">
+                                            <Image src={evento.qr_code_url} alt="QR Code" width={80} height={80} className="object-contain" />
+                                        </div>
+                                    )}
+                                    <input type="file" name="qr_code" accept="image/*" className="text-xs text-spiritual-dark/50 dark:text-spiritual-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-spiritual-gold file:text-spiritual-dark hover:file:opacity-80 transition-all cursor-pointer" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <button type="submit" className="w-full mt-4 py-4 bg-spiritual-gold text-spiritual-dark font-black rounded-xl hover:bg-spiritual-dark dark:hover:bg-spiritual-white hover:text-spiritual-gold dark:hover:text-spiritual-dark transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 text-lg">

@@ -77,9 +77,10 @@ export default async function InscricaoForm({ params }: PageProps) {
         return notFound();
     }
 
-    const pixKey = config?.chave_pix || "";
-    const pixName = config?.titular_pix || "";
-    const pixQRCode = config?.qr_code_url || "";
+    const pixKey = evento.chave_pix || config?.chave_pix || "";
+    const pixName = evento.titular_pix || config?.titular_pix || "";
+    const pixQRCode = evento.qr_code_url || config?.qr_code_url || "";
+    const pixLink = evento.link_pix || config?.link_pix || "";
 
     return (
         <div className="min-h-screen py-20 relative overflow-hidden flex flex-col items-center bg-transparent transition-colors duration-300">
@@ -207,16 +208,16 @@ export default async function InscricaoForm({ params }: PageProps) {
                                             </div>
                                             <span className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left">Titular: {pixName}</span>
                                         </div>
-                                        {config?.link_pix && (
+                                        {pixLink && (
                                             <div className="mt-4 pt-4 border-t border-spiritual-dark/10 dark:border-spiritual-white/10 w-full animate-in fade-in slide-in-from-top-2 duration-500">
                                                 <label className="text-[10px] text-spiritual-dark/40 dark:text-spiritual-white/40 block uppercase tracking-wider text-left mb-2 font-bold">
                                                     Pix Copia e Cola / Chave Aleatória:
                                                 </label>
                                                 <div className="flex justify-between items-center bg-emerald-500/5 dark:bg-emerald-500/10 py-2.5 px-3 rounded-xl gap-2 border border-emerald-500/20">
                                                     <p className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-bold select-all break-all m-0 leading-tight">
-                                                        {config.link_pix}
+                                                        {pixLink}
                                                     </p>
-                                                    <CopyPixButton pixKey={config.link_pix} />
+                                                    <CopyPixButton pixKey={pixLink} />
                                                 </div>
                                             </div>
                                         )}
