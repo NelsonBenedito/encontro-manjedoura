@@ -50,9 +50,7 @@ export async function saveSettings(formData: FormData) {
         await supabase.from("configuracoes").insert(payload);
     }
 
-    revalidatePath("/admin");
-    revalidatePath("/inscricao");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     
     return { success: true };
 }

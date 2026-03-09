@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle2, UploadCloud } from "lucide-react";
+import { ArrowLeft, CheckCircle2, UploadCloud, QrCode } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -57,6 +57,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function InscricaoForm({ params }: PageProps) {
     const supabase = await createClient();
     const resolvedParams = await params;
@@ -75,9 +77,9 @@ export default async function InscricaoForm({ params }: PageProps) {
         return notFound();
     }
 
-    const pixKey = config?.chave_pix || "53.740.127/0001-03";
-    const pixName = config?.titular_pix || "FILIPE BENEDITO JOSE MARIA";
-    const pixQRCode = config?.qr_code_url || "/pix-qrcode.png";
+    const pixKey = config?.chave_pix || "";
+    const pixName = config?.titular_pix || "";
+    const pixQRCode = config?.qr_code_url || "";
 
     return (
         <div className="min-h-screen py-20 relative overflow-hidden flex flex-col items-center bg-transparent transition-colors duration-300">
@@ -181,13 +183,20 @@ export default async function InscricaoForm({ params }: PageProps) {
                                     </div>
                                     <div className="flex flex-col items-center gap-4 bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-spiritual-dark/10 dark:border-spiritual-white/10 text-center">
                                         <div className="w-32 h-32 bg-white rounded-lg p-2 shadow-sm border border-spiritual-dark/5 flex items-center justify-center overflow-hidden">
-                                            <Image
-                                                src={pixQRCode}
-                                                alt="QR Code Pix"
-                                                width={120}
-                                                height={120}
-                                                className="opacity-90 dark:opacity-100 mix-blend-multiply dark:mix-blend-normal object-contain h-full w-full"
-                                            />
+                                            {pixQRCode ? (
+                                                <Image
+                                                    src={pixQRCode}
+                                                    alt="QR Code Pix"
+                                                    width={120}
+                                                    height={120}
+                                                    className="opacity-90 dark:opacity-100 mix-blend-multiply dark:mix-blend-normal object-contain h-full w-full"
+                                                />
+                                            ) : (
+                                                <div className="flex flex-col items-center gap-1 text-spiritual-dark/20 dark:text-spiritual-white/20">
+                                                    <QrCode className="w-10 h-10" />
+                                                    <span className="text-[8px] uppercase font-bold">Sem QR Code</span>
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="w-full flex flex-col gap-2">
                                             <div className="flex justify-between items-center bg-spiritual-dark/5 dark:bg-spiritual-white/5 py-2 px-3 rounded-lg gap-2">
