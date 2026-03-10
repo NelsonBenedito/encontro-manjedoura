@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { QrCode, Clipboard, User, Save, Check, Key } from "lucide-react";
+import { QrCode, Clipboard, User, Save, Check, Key, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { saveSettings } from "./settings-actions";
 
@@ -17,6 +17,7 @@ interface SettingsFormProps {
 export function SettingsForm({ initialData }: SettingsFormProps) {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [removeQR, setRemoveQR] = useState(false);
 
     async function handleSubmit(formData: FormData) {
         setLoading(true);
@@ -88,19 +89,30 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
                             <QrCode className="w-4 h-4 text-spiritual-gold" /> Upload do QR Code
                         </label>
                         <div className="flex items-center gap-4 p-4 bg-spiritual-dark/5 dark:bg-spiritual-white/5 rounded-2xl border border-dashed border-spiritual-dark/10 dark:border-spiritual-white/10">
-                            <div className="w-24 h-24 bg-white rounded-lg p-2 border border-spiritual-dark/10 relative overflow-hidden flex items-center justify-center">
-                                {initialData?.qr_code_url ? (
+                            {initialData?.qr_code_url && !removeQR ? (
+                                <div className="group relative w-24 h-24 bg-white rounded-lg p-2 border border-spiritual-dark/10 overflow-hidden flex items-center justify-center shrink-0">
                                     <Image
                                         src={initialData.qr_code_url}
                                         alt="QR Code Atual"
                                         width={80}
                                         height={80}
-                                        className="object-contain"
+                                        className="object-contain transition-opacity group-hover:opacity-40"
                                     />
-                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={() => setRemoveQR(true)}
+                                        className="absolute inset-0 m-auto w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md hover:bg-red-600"
+                                        title="Apagar QR Code Atual"
+                                    >
+                                        <Trash2 className="w-5 h-5" />
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="w-24 h-24 bg-white rounded-lg p-2 border border-spiritual-dark/10 overflow-hidden flex items-center justify-center shrink-0">
                                     <QrCode className="w-10 h-10 text-spiritual-dark/20" />
-                                )}
-                            </div>
+                                </div>
+                            )}
+                            {removeQR && <input type="hidden" name="remove_qr_code" value="true" />}
                             <input
                                 type="file"
                                 name="qr_code"
@@ -120,8 +132,8 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
                 type="submit"
                 disabled={loading}
                 className={`flex items-center justify-center gap-2 py-4 rounded-xl font-black text-lg transition-all shadow-md ${success
-                        ? "bg-green-500 text-white"
-                        : "bg-spiritual-dark dark:bg-spiritual-white text-spiritual-gold dark:text-spiritual-dark hover:scale-[1.02] active:scale-[0.98]"
+                    ? "bg-green-500 text-white"
+                    : "bg-spiritual-dark dark:bg-spiritual-white text-spiritual-gold dark:text-spiritual-dark hover:scale-[1.02] active:scale-[0.98]"
                     }`}
             >
                 {loading ? (

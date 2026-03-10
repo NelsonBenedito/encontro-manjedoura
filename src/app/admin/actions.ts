@@ -16,6 +16,11 @@ function generateSlug(title: string) {
 
 export async function saveEvento(formData: FormData) {
   const supabase = await createClient();
+  
+  // Proteção da Server Action
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Acesso negado: Autenticação obrigatória.");
+
   const id = formData.get("id") as string | null;
   const title = formData.get("title") as string;
   const date = formData.get("date") as string;
@@ -36,9 +41,10 @@ export async function saveEvento(formData: FormData) {
   }
 
   let qr_code_url = null;
+  const remove_qr_code = formData.get("remove_qr_code") === "true";
 
-  // Se estiver editando, busca a URL atual para não sobrescrever com null se não subir novo arquivo
-  if (id) {
+  // Se estiver editando, busca a URL atual (se houver, e se NÃO foi pedido para remover)
+  if (id && !remove_qr_code) {
     const { data: current } = await supabase.from("eventos").select("qr_code_url").eq("id", id).single();
     qr_code_url = current?.qr_code_url;
   }
@@ -87,6 +93,11 @@ export async function saveEvento(formData: FormData) {
 
 export async function deleteEvento(formData: FormData) {
   const supabase = await createClient();
+
+  // Proteção da Server Action
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Acesso negado: Autenticação obrigatória.");
+
   const id = formData.get("id") as string;
   
   await supabase.from("eventos").delete().eq("id", id);
@@ -98,6 +109,11 @@ export async function deleteEvento(formData: FormData) {
 
 export async function confirmarInscricao(formData: FormData) {
   const supabase = await createClient();
+
+  // Proteção da Server Action
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Acesso negado: Autenticação obrigatória.");
+
   const id = formData.get("id") as string;
   
   // Buscar os dados da inscrição para o e-mail

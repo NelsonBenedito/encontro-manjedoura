@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowLeft, Save, Clipboard, User, Key, QrCode } from "lucide-react";
+import { ArrowLeft, Save, Clipboard, User, Key, QrCode, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { saveEvento } from "../actions";
 
 // Foi criado um alias para os Eventos salvos no banco
@@ -21,6 +22,9 @@ interface EventoProps {
 }
 
 export function FormEvento({ evento }: { evento?: EventoProps }) {
+    // Estado para controlar a deleção visual do QR Code importado
+    const [removeQR, setRemoveQR] = useState(false);
+
     return (
         <div className="container mx-auto px-4 py-12 max-w-2xl">
             <Link href="/admin" className="flex items-center gap-2 text-spiritual-dark/50 hover:text-spiritual-gold transition-colors mb-8 font-bold uppercase tracking-widest text-xs w-fit">
@@ -117,11 +121,21 @@ export function FormEvento({ evento }: { evento?: EventoProps }) {
                                     <QrCode className="w-4 h-4 text-spiritual-gold" /> Upload do QR Code (Fallback)
                                 </label>
                                 <div className="flex items-center gap-4 p-4 bg-spiritual-dark/5 dark:bg-spiritual-white/5 rounded-2xl border border-dashed border-spiritual-dark/10 dark:border-spiritual-white/10">
-                                    {evento?.qr_code_url && (
-                                        <div className="w-20 h-20 bg-white rounded-lg p-1 border border-spiritual-dark/10 shrink-0 flex items-center justify-center overflow-hidden">
-                                            <Image src={evento.qr_code_url} alt="QR Code" width={80} height={80} className="object-contain" />
+                                    {evento?.qr_code_url && !removeQR && (
+                                        <div className="relative group w-20 h-20 bg-white rounded-lg p-1 border border-spiritual-dark/10 shrink-0 flex items-center justify-center overflow-hidden">
+                                            <Image src={evento.qr_code_url} alt="QR Code" width={80} height={80} className="object-cover transition-opacity group-hover:opacity-40" />
+                                            {/* Botão flutuante para deletar a imagem (Remove o fallback estático) */}
+                                            <button
+                                                type="button"
+                                                onClick={() => setRemoveQR(true)}
+                                                className="absolute inset-0 m-auto w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md hover:bg-red-600"
+                                                title="Apagar QR Code Atual"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
                                         </div>
                                     )}
+                                    {removeQR && <input type="hidden" name="remove_qr_code" value="true" />}
                                     <input type="file" name="qr_code" accept="image/*" className="text-xs text-spiritual-dark/50 dark:text-spiritual-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-spiritual-gold file:text-spiritual-dark hover:file:opacity-80 transition-all cursor-pointer" />
                                 </div>
                             </div>

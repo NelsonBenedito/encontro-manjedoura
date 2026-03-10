@@ -12,10 +12,31 @@ export async function submeterInscricao(formData: FormData) {
     const email = formData.get("email") as string;
     const telefone = formData.get("phone") as string;
     const comprovante = formData.get("comprovante") as File;
+    const website = formData.get("website") as string; // Honeypot trap
+
+    // 1. Defesa Honeypot: se o bot preencher esse campo, a gente finaliza a função sem salvar nada
+    if (website) {
+        console.warn("Tentativa de spam bloqueada (Honeypot).");
+        redirect("/confirmacao"); // Engana o bot
+    }
 
     let comprovante_url = null;
 
+    // 2. Proteção de Upload (Evitar ataques de armazenamento e malwares)
     if (comprovante && comprovante.size > 0) {
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+        const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+
+        if (comprovante.size > MAX_FILE_SIZE) {
+            console.error("Arquivo maior que 5MB.");
+            return; // Em produção ideal seria um erro retornado ao Front-End
+        }
+
+        if (!ALLOWED_MIME_TYPES.includes(comprovante.type)) {
+            console.error("Formato de arquivo não permitido.");
+            return; // Em produção ideal seria um erro retornado ao Front-End
+        }
+
         const fileExt = comprovante.name.split('.').pop();
         const fileName = `${evento_id}-${Date.now()}.${fileExt}`;
         

@@ -34,15 +34,23 @@ export async function middleware(request: NextRequest) {
   const isAuthRoute = request.nextUrl.pathname.startsWith('/admin')
   const isLoginRoute = request.nextUrl.pathname === '/admin/login'
 
-  // Protege a rota do admin
-  if (isAuthRoute && !isLoginRoute && !user) {
+  const ALLOWED_EMAILS = [
+    'nelsonbenejm@gmail.com',
+    'filipebeneditojm@gmail.com',
+    'nelsonbjosem@gmail.com'
+  ];
+  
+  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
+
+  // Protege a rota do admin para garantir que só os donos acessem
+  if (isAuthRoute && !isLoginRoute && !isAuthorized) {
     const url = request.nextUrl.clone()
     url.pathname = '/admin/login'
     return NextResponse.redirect(url)
   }
 
-  // Redireciona do login se já estiver logado
-  if (isLoginRoute && user) {
+  // Redireciona do login se já estiver logado e for autorizado
+  if (isLoginRoute && isAuthorized) {
     const url = request.nextUrl.clone()
     url.pathname = '/admin'
     return NextResponse.redirect(url)

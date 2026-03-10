@@ -17,7 +17,8 @@ export async function saveSettings(formData: FormData) {
         .select("*")
         .single();
 
-    let qr_code_url = currentConfig?.qr_code_url;
+    const remove_qr_code = formData.get("remove_qr_code") === "true";
+    let qr_code_url = remove_qr_code ? null : currentConfig?.qr_code_url;
 
     // Se houver novo arquivo de QR Code, faz o upload
     if (qr_code && qr_code.size > 0) {
